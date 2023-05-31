@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import AVFoundation
+import UserNotifications
 
 enum NotificationAction: String {
     case dismiss
@@ -18,56 +20,83 @@ enum NotificationCategory: String {
 
 class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
         let userInfo = response.notification.request.content.userInfo
         print(userInfo)
+        
+        if response.actionIdentifier == UNNotificationDefaultActionIdentifier {
+            // The user tapped on the notification alert
+            playSound()
+        }
         
         completionHandler()
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.banner, .sound, .badge])
+        // Handle the notification when the app is in the foreground
+        if notification.request.trigger is UNPushNotificationTrigger {
+            // Remote notification
+            print("Received remote notification in foreground.")
+        } else {
+            // Local notification
+            playSound()
+        }
+        
+        let options: UNNotificationPresentationOptions = [.banner, .sound, .badge]
+        completionHandler(options)
     }
     
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "piano-bell", withExtension: "mp3") else {
+            return
+        }
+        
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default, options: [.duckOthers])
+            try session.setActive(true, options: .notifyOthersOnDeactivation) // Add .notifyOthersOnDeactivation option
+            
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.prepareToPlay()
+            player.play()
+        } catch {
+            print("Failed to play audio: \(error)")
+        }
+    }
 }
 
 struct ContentView: View {
     var body: some View {
         VStack {
-            
             Button("Schedule Notification") {
+                // Play the sound when the button is pressed
+                playSound()
+                
                 let center = UNUserNotificationCenter.current()
                 
-                //Create content
+                // Create content
                 let content = UNMutableNotificationContent()
                 content.title = "Hot Coffee"
                 content.body = "Your delicious coffee is ready!"
                 content.categoryIdentifier = NotificationCategory.general.rawValue
-                content.userInfo = ["customData": "Some Data"]
+                content.sound = UNNotificationSound.default // Set the notification sound
                 
-                if let url = Bundle.main.url(forResource: "coffee2", withExtension: "jpeg") {
-                    if let attachment = try? UNNotificationAttachment(identifier: "image", url: url) {
-                        content.attachments = [attachment]
-                    }
-                }
+                // Create trigger
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 30.0, repeats: false)
                 
-                //Create trigger
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5.0, repeats: false)
-                
-                //Create request
+                // Create request
                 let request = UNNotificationRequest(identifier: "goy", content: content, trigger: trigger)
                 
-                //Define actions
+                // Define actions
                 let dismissAction = UNNotificationAction(identifier: NotificationAction.dismiss.rawValue, title: "Dismiss", options: [])
                 
                 let reminderAction = UNNotificationAction(identifier: NotificationAction.reminder.rawValue, title: "Reminder", options: [])
                 
                 let generalCategory = UNNotificationCategory(identifier: NotificationCategory.general.rawValue, actions: [dismissAction, reminderAction], intentIdentifiers: [], options: [])
                 
-                //Set notification categories
+                // Set notification categories
                 center.setNotificationCategories([generalCategory])
                 
-                //Add request to notification center
+                // Add request to notification center
                 center.add(request) { error in
                     if let error = error {
                         print(error)
@@ -75,8 +104,24 @@ struct ContentView: View {
                 }
                 
             }
+        }
+    }
+    
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "piano-bell", withExtension: "mp3") else {
+            return
+        }
+        
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setCategory(.playback, mode: .default, options: [.duckOthers])
+            try session.setActive(true, options: .notifyOthersOnDeactivation) // Add .notifyOthersOnDeactivation option
             
-            
+            let player = try AVAudioPlayer(contentsOf: url)
+            player.prepareToPlay()
+            player.play()
+        } catch {
+            print("Failed to play audio: \(error)")
         }
     }
 }
