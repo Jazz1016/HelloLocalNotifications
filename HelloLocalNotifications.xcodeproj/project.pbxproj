@@ -11,6 +11,7 @@
 		0D5F5DD52A27971D00D61A2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5F5DD42A27971D00D61A2C /* ContentView.swift */; };
 		0D5F5DD72A27971E00D61A2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F5DD62A27971E00D61A2C /* Assets.xcassets */; };
 		0D5F5DDA2A27971E00D61A2C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F5DD92A27971E00D61A2C /* Preview Assets.xcassets */; };
+		0D5F5DE42A27A56100D61A2C /* coffee2.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0D5F5DE32A27A56100D61A2C /* coffee2.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		0D5F5DD42A27971D00D61A2C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0D5F5DD62A27971E00D61A2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0D5F5DD92A27971E00D61A2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		0D5F5DE32A27A56100D61A2C /* coffee2.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = coffee2.jpeg; path = ../../../../../coffee2.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 		0D5F5DD12A27971D00D61A2C /* HelloLocalNotifications */ = {
 			isa = PBXGroup;
 			children = (
+				0D5F5DE02A27A52A00D61A2C /* Resources */,
 				0D5F5DD22A27971D00D61A2C /* HelloLocalNotificationsApp.swift */,
 				0D5F5DD42A27971D00D61A2C /* ContentView.swift */,
 				0D5F5DD62A27971E00D61A2C /* Assets.xcassets */,
@@ -65,6 +68,14 @@
 				0D5F5DD92A27971E00D61A2C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		0D5F5DE02A27A52A00D61A2C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0D5F5DE32A27A56100D61A2C /* coffee2.jpeg */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D5F5DDA2A27971E00D61A2C /* Preview Assets.xcassets in Resources */,
+				0D5F5DE42A27A56100D61A2C /* coffee2.jpeg in Resources */,
 				0D5F5DD72A27971E00D61A2C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
